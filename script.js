@@ -7,8 +7,8 @@ about.addEventListener("click", () => {
   const aboutBox = new WinBox({
     title: "About Me",
     // modal: true,
-    width: "400px",
-    height: "400px",
+    width: window.innerWidth/2,
+    height: window.innerHeight/2,
     top: 50,
     right: 50,
     bottom: 50,
@@ -26,8 +26,8 @@ about.addEventListener("click", () => {
 contact.addEventListener("click", () => {
   const contactBox = new WinBox({
     title: "Contact Me",
-    width: "400px",
-    height: "400px",
+    width: window.innerWidth/2,
+    height: window.innerHeight/2,
     top: 100,
     right: 50,
     bottom: 50,
