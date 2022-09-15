@@ -11,6 +11,7 @@
  */
 class Graph{
     int distance[],
+     p[],
     vertices=8, 
     wMat[][]=
     {{0, 2, 5, 7, 0, 0, 0, 0},
@@ -31,6 +32,7 @@ class Graph{
     Graph(int v){
         //to create a user defined array put the value of v to vertices
         distance=new int[vertices];
+        p=new int[vertices];
         distance[0]=0; //distance from source to source is zero.
         
         visited= new int[vertices];
@@ -48,6 +50,7 @@ class Graph{
                 distance[i]=inft; //initially we know nothing about the distance from source to all other nodes
                
             }
+            p[i]=nill;
             visited[i]=0;// not yet visited
 
         }
@@ -103,8 +106,9 @@ class Graph{
             for(int j=0;j<vertices;j++){
                 
                 if(visited[j]==0 && wMat[u][j]!=0){
-                    if(distance[j]>(distance[u]+wMat[u][j])){
+                    if(distance[j]>=(distance[u]+wMat[u][j])){
                         distance[j]=distance[u]+wMat[u][j];
+                        p[j]=u;
                     }
                 }
             }
@@ -114,14 +118,38 @@ class Graph{
         }
         return distance;
     }
+    int[][] createShortPathGraph(){
+        int sWMat[][]=new int[vertices][vertices];
+        for(int i=0;i<vertices;i++){
+            //System.out.println("parent of "+i+" is "+p[i]);
+            for(int j=0;j<vertices;j++){
+               
+                if(p[j]==i || p[i]==j){
+                    sWMat[i][j]=wMat[i][j];
+                }
+            }
+        }
+
+        return sWMat;
+    }
 
 }
 public class dijkastra {
 public static void main(String[] args) {
     Graph g= new Graph(5);
     int result[]=g.calculateShortestDistance();
+    
     for (int i : result) {
         System.out.println(i);
+    }
+    int result2[][]=g.createShortPathGraph();
+    for(int i=0;i<g.vertices;i++){
+        System.out.println("");
+        System.out.print("[");
+        for(int j=0;j<g.vertices;j++){
+            System.out.print(result2[i][j]+",");
+        }
+        System.out.print("]");
     }
 }
     
