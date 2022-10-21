@@ -1,3 +1,7 @@
+#####written by Poushali Chakraborty @7:47pm 5 Oct 2022 
+# this program can be used to classify a given pattern based on the training dataset's attribute values.
+# it uses Bayes’ classifier with Maximum Likelihood Estimation
+
 dataset=[
     {
     "pattern":"t1",
@@ -49,7 +53,7 @@ dataset=[
     "class":"professor"
     },
     {
-    "pattern":"t4",
+    "pattern":"t8",
     "habit":"quite",
     "eats":"fried",
     "footware":"clogs",
@@ -58,86 +62,84 @@ dataset=[
 
 ]
 
-def maximumLikelyHood(ckij,ck):
+def maximumLikelyHood(ckij,ck): 
     print("ml: "+str(ckij)+"/"+str(ck))
     return float(ckij/ck)
 
 def nb(ckij,ck,i):
     print("nb: "+str(ckij+1)+"/"+str(i+ck))
     return((float(ckij+1)/(i+ck)))
-def probability(a,i,c):
+
+def probability(atribute,valuei,cls,tvalue): #calculate the probability of the class for a given atrribute value
     ck=0
     ckij=0
-    iin=0
-    an=[]
+    an=[] 
     for d in dataset:
-        if d[a] not in an:
-            an.append(d[a])
+        if d[atribute] not in an: # this list is used to calculate the no of distinct values for a given atrribute
+            an.append(d[atribute])
             
-        if d["class"]==c and d[a]:
+        if d["class"]==cls:
             ck+=1
-            if d[a]==i:
+            if d[atribute]==valuei:
                 ckij+=1
-    return [maximumLikelyHood(ckij,ck),nb(ckij,ck,len(an))]
-
-def probClass(c):
-    ck=0
-    ckij=0
+    if not tvalue:
+        return maximumLikelyHood(ckij,ck)
+    else:
+        return nb(ckij,ck,len(an))
+    
+def probabilityClass(cls,tvalue): #caculates the probability for the given class
+    ck=0 #no of prof/students
     for d in dataset:
-        if d["class"]==c:
-            ckij+=1
-        ck+=1
-    return [maximumLikelyHood(ckij,ck),nb(ckij,ck,2)]
+        if d["class"]==cls:
+            ck+=1
+    if not tvalue:
+        return maximumLikelyHood(ck,len(dataset))
+    else:
+        return nb(ck,len(dataset),2)
+    
 
 
 
 
-def classifier(given):
+def classifier(given_pattern): #classifies the given data as professor or student
     print("maximum likelyhood")
     print("professor")
-    prof=probClass("professor")[0]
+    prof=probabilityClass("professor",False)#maximumLikelyHood
     print("student")
-    stud=probClass("student")[0]
-    for key,val in given.items():
+    stud=probabilityClass("student",False)#maximumLikelyHood
+    for key,val in given_pattern.items(): #take each row of key, value pair from given
         print(key,val)
         print("professor")
-        prof*=probability(key,val,"professor")[0]
+        prof*=probability(key,val,"professor",False)#maximumLikelyHood
         print("student")
-        stud*=probability(key,val,"student")[0]
+        stud*=probability(key,val,"student",False)#maximumLikelyHood
     print("probability>> professor= ",prof," student= ",stud)
     if(prof==0.0 or stud==0.0):
        print("naive bayes")
        print("professor")
-       prof=probClass("professor")[1]
+       prof=probabilityClass("professor",True)#naive bayes
        print("student")
-       stud=probClass("student")[1]
-       for key,val in given.items():
+       stud=probabilityClass("student",True)#naive bayes
+       for key,val in given_pattern.items():
             print(key,val)
             print("professor")
-            prof*=probability(key,val,"professor")[1]
+            prof*=probability(key,val,"professor",True)#naive bayes
             print("student")
-            stud*=probability(key,val,"student")[1] 
+            stud*=probability(key,val,"student",True) #naive bayes
     print("probability>> professor= ",prof," student= ",stud)
+    print("class for the given pattern: ",given_pattern," >>")
     if(prof>stud):
         print("professor")
     else:
         print("student")
 
     return
-'''
-probability("habit","gabby","professor")
-probability("habit","quite","professor")
-probability("eats","baked","professor")
-probability("eats","fried","professor")
-probability("eats","rosted","professor")
-probability("footware","clog","professor")
-probability("footware","sandle","professor")
-'''
-given={
+
+given_pattern={
     "habit":"gabby",
     "eats":"roasted",
     "footware":"clogs"
 }
-classifier(given)
+classifier(given_pattern)
 
 
