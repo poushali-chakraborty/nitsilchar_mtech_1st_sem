@@ -1,0 +1,102 @@
+#1
+
+#!/ bin/ bash
+echo " What is your name ? "
+read PERSON
+GREET = " Hello "
+echo "$GREET , $PERSON "
+
+
+#2
+
+#!/ bin/ bash
+# reading data from the user
+read -p ’ Enter a : ’ a
+read -p ’ Enter b : ’ b
+add =$[ a + b ]
+echo Addition of a and b are $add
+sub =$[ a - b ]
+echo Subtraction of a and b are $sub
+mul =$[ a * b ]
+echo Multiplication of a and b are $mul
+div =$[ a / b ]
+echo division of a and b are $div
+mod =$[ a % b ]
+echo Modulus of a and b are $mod
+echo Increment operator when applied on " a " results into a = $ [++ a ]
+echo Decrement operator when applied on " b " results into b = $ [++ b ]
+
+
+#3
+
+#!/ bin/ bash
+# reading data from the user
+choice = " Y "
+while [ " $choice " == " y " ]||[ " $choice " == " Y " ]
+do
+read -p ’ Enter a : ’ a
+read -p ’ Enter b : ’ b
+if [ $a - eq $b ]
+then
+echo " a is equal to b "
+else
+echo " a is not equal to b "
+fi
+read -p ’ Continue Y / N : ’ choice
+done
+
+#4
+#!/ bin/ bash
+# reading data from the user
+read -p ’ Enter file name : ’ FileName
+if [ -e $FileName ]
+then
+echo " File Exist "
+else
+echo " File does not exist "
+fi
+if [ -s $FileName ]
+then
+echo " The given file is not empty . "
+else
+echo " The given file is empty . "
+fi
+if [ -r $FileName ]
+then
+echo " The given file has read access . "
+else
+echo " The given file does not has read access . "
+fi
+if [ -w $FileName ]
+then
+echo " The given file has write access . "
+else
+echo " The given file does not has write access . "
+fi
+if [ -x $FileName ]
+then
+echo " The given file has execute access . "
+else
+echo " The given file does not has execute access . "
+fi
+
+#5
+
+#!/ bin/ bash
+# reading data from the user
+read -p ’ Enter file name : ’ FileName
+CURRENT_PATH =$(pwd) # saves current path
+if [ -e $FileName ]
+then
+echo " File already Exist "
+else
+echo " File does not Exist : Creating File "
+touch "${ CURRENT_PATH }/${ FileName } "
+fi
+if [ -x $FileName ]
+then
+echo " File has execute access . "
+else
+echo " File do not have execute access : Setting permission . "
+chmod + x $CURRENT_PATH / $FileName
+fi
